@@ -74,7 +74,9 @@
 .w-content {
     width: fit-content;
 }
-
+.pointer {
+    cursor: pointer;
+}
 a.card-a {
     text-decoration: none;
     color: #ffffff;
@@ -86,6 +88,7 @@ a.disabled{
     pointer-events: none;
     cursor: default;
     color: #8f5f5f;
+    opacity: .5;
 }
 
 .media-img {
@@ -106,3 +109,16 @@ a.disabled{
 .dark-hover:hover {
     opacity: 1;
 }
+.rotate {
+    animation: rotate linear infinite 2s;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+  
+    100% {
+        transform: rotate(359deg);
+    }
+  }

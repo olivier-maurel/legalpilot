@@ -1,0 +1,25 @@
+<div class="card bg-master text-white shadow">
+    {% if editing is not defined or editing == true %}
+        <div class="dark-hover flex-center">
+            <a href="{{ path('character_edit', {id: character.id}) }}" class="btn btn-lg text-white h-100 w-100 flex-center flex-column">
+                <i class="fa fa-edit pt-3"></i>
+                {% if character.modifiedAt is not null %}
+                    <span class="opacity-75 pt-3" style="font-size: x-small;">modifié le {{ character.modifiedAt|date('d/m/Y') }}</span>
+                {% endif %}
+            </a>
+        </div>
+    {% endif %}
+    <div class="card-head">
+        <h5 class="text-center">{{ character.name }}</h5>
+    </div>
+    <div class="card-body p-0">
+        <img src="{{ character.image }}" alt="Image du personnage {{ character.name }}" class="media-img">
+    </div>
+    <div class="card-foot">
+        <div class="flex-center-eve">
+            <small title="Attaque" class="text-danger"><i class="fa fa-fist-raised"></i> {{ character.strong }}</small>
+            <small title="Défense" class="text-primary"><i class="fa fa-shield-alt"></i> {{ character.guard }}</small>
+            <small title="Vitesse" class="text-warning"><i class="fa fa-wind"></i> {{ character.speed }}</small>
+        </div>
+    </div>
+</div>

@@ -68,8 +68,14 @@ class Character
      */
     private $modifiedAt;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $health;
+
     public function __construct()
     {
+        $this->setHealth(20);
         $this->setLevel(1);
         $this->setVictory(0);
         $this->setDefeat(0);
@@ -196,6 +202,18 @@ class Character
     public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    public function getHealth(): ?int
+    {
+        return $this->health;
+    }
+
+    public function setHealth(int $health): self
+    {
+        $this->health = $health;
 
         return $this;
     }
