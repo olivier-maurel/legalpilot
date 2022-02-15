@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classement{% endblock %}
+
+{% block body %}
+    <h2 class="text-center mt-5 pt-3 border-top">Classement</h2>
+
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+                <th>Victoire</th>
+                <th>Défaite</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for character in characters %}
+                <tr>
+                    <th>
+                        <img src="{{ character.image }}" alt="Image du personnage {{ character.name }}" width="90px">
+                    </th>
+                    <th>{{ character.name }}</th>
+                    <th>{{ character.victory }}</th>
+                    <th>{{ character.defeat }}</th>
+                    <th>{{ character.victory + character.defeat }}</th>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
