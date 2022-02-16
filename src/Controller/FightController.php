@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Character;
 use App\Repository\CharacterRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -88,14 +89,20 @@ class FightController extends AbstractController
         EntityManagerInterface $em
     ): JsonResponse
     {
+        $characterRepository = $em->getRepository(Character::class);
+
         // Encapsule les équipes
         foreach ($session->get('selected_characters') as $key => $char) {
             if ($key <= 1) $team[1][] = $char;
             else $team[2][] = $char;
-        }  
+
+            $entity = $characterRepository->findOneById($char->getId());
+            $entity->setFight($entity->getFight() + 1);
+        }
 
         // Regroupe les statistiques par équipe
         foreach ($team as $i => $chars) {
+            $team[$i]['id'] = $i;
             foreach ($chars as $char) {
                 $team[$i]['strong'] = ((!isset($team[$i]['strong'])) ? 0 : $team[$i]['strong']) + $char->getStrong();
                 $team[$i]['guard']  = ((!isset($team[$i]['guard'])) ? 0 : $team[$i]['guard']) + $char->getGuard();
@@ -152,10 +159,12 @@ class FightController extends AbstractController
                 'editing' => false
             ]);
             
-            $winner[$i]->setVictory($winner[$i]->getVictory() + 1);
+            $entity = $characterRepository->findOneById($winner[$i]->getId());
+
+            $entity->setVictory($entity->getVictory() + 1);
+            $entity->setExperience($entity->getExperience() + 35);
         }
-        dump($winner); die;
-        
+
         $em->flush();
 
         return new JsonResponse([

@@ -1,4 +1,19 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.name) }}
+    <div class="row">
+        <div class="col-lg-4">
+            {{ form_row(form.strong) }}
+        </div>
+        <div class="col-lg-4">
+            {{ form_row(form.guard) }}
+        </div>
+        <div class="col-lg-4">
+            {{ form_row(form.speed) }}
+        </div>
+    </div>
+    <div>
+        {{ form_row(form.image) }}
+    </div>
+
+    <button class="btn btn-sm btn-success m-auto mt-3 d-block">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

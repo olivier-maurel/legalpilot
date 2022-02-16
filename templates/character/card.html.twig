@@ -10,12 +10,18 @@
         </div>
     {% endif %}
     <div class="card-head">
-        <h5 class="text-center">{{ character.name }}</h5>
+        <div class="p-relative">
+            <h5 class="text-center">{{ character.name }}</h5>
+            <span class="badge bg-success border position-absolute" style="top:4px; left:4px; border-radius: 50%;">{{ character.level }}</span>
+        </div>
+        <div class="w-100 bg-dark" style="height: 3px;">
+            <div class="bg-warning h-100" style="width: {{ character.experience ?: 0 }}%;"></div>
+        </div>
     </div>
     <div class="card-body p-0">
         <img src="{{ character.image }}" alt="Image du personnage {{ character.name }}" class="media-img">
     </div>
-    <div class="card-foot">
+    <div class="card-foot py-2">
         <div class="flex-center-eve">
             <small title="Attaque" class="text-danger"><i class="fa fa-fist-raised"></i> {{ character.strong }}</small>
             <small title="Défense" class="text-primary"><i class="fa fa-shield-alt"></i> {{ character.guard }}</small>

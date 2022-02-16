@@ -30,19 +30,16 @@
     </div>
 </div>
 
-<div id="fightContainer" class="dark-hover" style="display: none;">
-    <div class="col-lg-7 h-100 m-auto">
-        <div class="card bg-dark h-100">
-            <div id="fightCard" class="flex-center full-h text-white flex-column">
+<div id="fightContainer" class="dark-card" style="display: none;">
+    <div class="h-100 m-auto">
+        <div class="card bg-dark h-100 flex-center">
+            <div id="fightCard" class="flex-center text-white flex-column">
                 <i id="loader" class="fa fa-redo rotate h1 mb-5"></i>
                 <h3 id="currentFightText">Le sons des tambours résonnent...</h3>
-                <div id="fightWinner" class="row flex-center-eve">
-
-                </div>
-                <div id="fightLogs" class="h-25 overflow-auto">
-
-                </div>
-                <a id="closeFight" class="btn btn-sm btn-danger d-block m-auto">Fermer</a>
+                <h2 id="fightTeamWin"></h2>
+                <div id="fightWinner" class="my-2 row flex-center-eve"></div>
+                <div id="fightLogs" class="h-25 my-3 overflow-auto"></div>
+                <a id="closeFight" class="btn btn-sm btn-danger">Fermer</a>
             </div>
         </div>
     </div>
@@ -104,12 +101,35 @@
                 setTimeout(() => {
                     $('#currentFightText').text('Résultat de la bataille !');
                     $('#loader').hide();
+
+                    if (data.team.id == 1)
+                        color = 'primary';
+                    else color = 'danger';
+
+                    $('#fightTeamWin').text('Equipe ' + data.team.id).addClass('text-'+color);
+
                     data.html.forEach(element => {
                         $('#fightWinner').append('<div class="col-lg-5">'+element+'</div>');
                     });
-                    // data.logs.forEach(element => {
-                    //     $('#fightLogs').append('<span class="col-lg-5">'+element.damage+'</span>');
-                    // });
+                    $.each(data.logs, function(k,log) {
+                        let logger = $('<small>').addClass('mb-1 w-100').css('font-size','x-small');
+                        let message = '';
+
+                        console.log(log.team)
+
+                        if (log.team == 1)
+                            logger.addClass('text-primary');
+                        else 
+                            logger.addClass('text-danger');
+
+                        if (log.damage != null)
+                            message = 'Equipe '+ log.team +' a réussi son attaque avec '+ log.attack +'% de blesser et '+ log.lucky +'% de chance de toucher.<br>Equipe adverse perd '+ log.damage +' dommage, elle lui reste désormet '+ log.health +' PV.<br>';
+                        else
+                            message = 'Equipe '+ log.team +' a échoué son attaque avec '+ log.attack +'% de blesser et '+ log.lucky +'% de chance de toucher.<br>Equipe adverse ne perd aucun PV.<br>';
+
+                        logger.html(message);
+                        $('#fightLogs').append(logger);
+                    });
                 
                 }, 6000);
             });

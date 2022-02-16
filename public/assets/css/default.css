@@ -109,6 +109,14 @@ a.disabled{
 .dark-hover:hover {
     opacity: 1;
 }
+.dark-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #0005;
+}
 .rotate {
     animation: rotate linear infinite 2s;
 }

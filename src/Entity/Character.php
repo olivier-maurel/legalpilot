@@ -59,11 +59,6 @@ class Character
     private $victory;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $defeat;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modifiedAt;
@@ -73,12 +68,17 @@ class Character
      */
     private $health;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $fight;
+
     public function __construct()
     {
         $this->setHealth(20);
         $this->setLevel(1);
         $this->setVictory(0);
-        $this->setDefeat(0);
+        $this->setFight(0);
     }
 
     public function getId(): ?int
@@ -118,6 +118,11 @@ class Character
     public function setExperience(?int $experience): self
     {
         $this->experience = $experience;
+
+        if ($this->experience >= 100) {
+            $this->experience -= 100;
+            $this->setLevel($this->level + 1);
+        }
 
         return $this;
     }
@@ -182,18 +187,6 @@ class Character
         return $this;
     }
 
-    public function getDefeat(): ?int
-    {
-        return $this->defeat;
-    }
-
-    public function setDefeat(?int $defeat): self
-    {
-        $this->defeat = $defeat;
-
-        return $this;
-    }
-
     public function getModifiedAt(): ?\DateTimeInterface
     {
         return $this->modifiedAt;
@@ -214,6 +207,18 @@ class Character
     public function setHealth(int $health): self
     {
         $this->health = $health;
+
+        return $this;
+    }
+
+    public function getFight(): ?int
+    {
+        return $this->fight;
+    }
+
+    public function setFight(?int $fight): self
+    {
+        $this->fight = $fight;
 
         return $this;
     }

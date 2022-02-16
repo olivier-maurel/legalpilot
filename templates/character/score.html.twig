@@ -11,7 +11,6 @@
                 <th>Image</th>
                 <th>Nom</th>
                 <th>Victoire</th>
-                <th>Défaite</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -23,8 +22,7 @@
                     </th>
                     <th>{{ character.name }}</th>
                     <th>{{ character.victory }}</th>
-                    <th>{{ character.defeat }}</th>
-                    <th>{{ character.victory + character.defeat }}</th>
+                    <th>{{ character.fight }}</th>
                 </tr>
             {% endfor %}
         </tbody>
