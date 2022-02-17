@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndexController!{% endblock %}
+{% block title %}Combat{% endblock %}
 
 {% block body %}
 <div class="px-1">
     <div class="card w-100 py-2 px-1">
-        <div class="flex-center">
+        <div class="row px-2">
             {% for character in characters %}
-                <a title="{{ character.name }}" data-char="{{ character.id }}" class="mx-1 shadow pointer select-char">
-                    <img src="{{ character.image }}" alt="Image du personnage {{ character.name }}" width="150px">
+                <a title="{{ character.name }}" data-char="{{ character.id }}" class="pointer select-char col-lg-2">
+                    <img src="{{ character.image }}" alt="Image du personnage {{ character.name }}" class="media-img mini-media-img shadow">
                 </a>
             {% endfor %}
         </div>
@@ -18,13 +18,13 @@
         <a id="selectRandom" class="btn btn-info text-white"><i class="fa fa-redo"></i> Aléatoire</a>
     </div>
     <div class="flex-center-btw">
-        <div id="f_team" class="col-lg-4">
+        <div id="f_team" class="col-lg-4 card p-3">
             <h3 class="text-primary text-center">Equipe1</h3>
         </div>
-        <div>
+        <div class="">
             <a id="btnFight" class="btn btn-lg btn-danger mt-5">FIGHT !</a>
         </div>
-        <div id="s_team" class="col-lg-4">
+        <div id="s_team" class="col-lg-4 card p-3">
             <h3 class="text-danger text-center">Equipe2</h3>
         </div>
     </div>
@@ -47,105 +47,5 @@
 {% endblock %}
 
 {% block javascripts %}
-<script>
-    
-    //
-    $(document.body).on('click', '.select-char', function(){
-
-        let $this = $(this);
-
-        if ($this.hasClass('disabled')) 
-            return;
-        else
-            $.post("{{ path('select-char') }}", {character: $this.data('char')}, function(data){
-                if (data.success === true) {
-                    $('#' + data.team).append(data.html);
-                    $this.addClass('disabled');
-                }
-            });
-
-    });
-
-    //
-    $(document.body).on('click', '#selectRandom', function(){
-
-        let available = $('.select-char:not(.disabled)').toArray();
-
-        $.post("{{ path('check') }}", function(data){
-            for (let i = data.selected; i < 4; i++) {
-                nbr = randomNumber(0, available.length);    
-                available[nbr].click();
-                available.splice(nbr, 1);
-            }
-        });
-
-    });
-
-    $(document.body).on('click', '#btnFight', function(){
-
-        $.post("{{ path('check') }}", function(data){
-            if (data.selected.length !== 4)
-                return;
-
-            $('#fightContainer').show();
-            
-            $.post("{{ path('fighting') }}", function(data){
-                setTimeout(() => {
-                    $('#currentFightText').text('Le fer des épées s\'entrecroisent ...');
-                }, 2000);
-
-                setTimeout(() => {
-                    $('#currentFightText').text('La lutte est sanglante ...');
-                }, 4000);
-
-                setTimeout(() => {
-                    $('#currentFightText').text('Résultat de la bataille !');
-                    $('#loader').hide();
-
-                    if (data.team.id == 1)
-                        color = 'primary';
-                    else color = 'danger';
-
-                    $('#fightTeamWin').text('Equipe ' + data.team.id).addClass('text-'+color);
-
-                    data.html.forEach(element => {
-                        $('#fightWinner').append('<div class="col-lg-5">'+element+'</div>');
-                    });
-                    $.each(data.logs, function(k,log) {
-                        let logger = $('<small>').addClass('mb-1 w-100').css('font-size','x-small');
-                        let message = '';
-
-                        console.log(log.team)
-
-                        if (log.team == 1)
-                            logger.addClass('text-primary');
-                        else 
-                            logger.addClass('text-danger');
-
-                        if (log.damage != null)
-                            message = 'Equipe '+ log.team +' a réussi son attaque avec '+ log.attack +'% de blesser et '+ log.lucky +'% de chance de toucher.<br>Equipe adverse perd '+ log.damage +' dommage, elle lui reste désormet '+ log.health +' PV.<br>';
-                        else
-                            message = 'Equipe '+ log.team +' a échoué son attaque avec '+ log.attack +'% de blesser et '+ log.lucky +'% de chance de toucher.<br>Equipe adverse ne perd aucun PV.<br>';
-
-                        logger.html(message);
-                        $('#fightLogs').append(logger);
-                    });
-                
-                }, 6000);
-            });
-            
-        });
-
-    });
-
-    $(document.body).on('click', '#closeFight', function(){
-        $('#fightContainer').hide();
-        $(location).attr("href", "/fight");
-    });
-
-    //
-    function randomNumber(min = 0, max) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
-</script>
+    {{ include('fight/js/fight.js.twig') }}
 {% endblock %}

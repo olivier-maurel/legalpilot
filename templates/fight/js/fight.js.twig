@@ -1,0 +1,114 @@
+<script>'use strict';
+    // *
+    // * FIGHT : fight.js.twig
+    // *
+    
+
+    // Evenements
+    $(document.body).on('click', '.select-char', function(){selectingChar($(this))});
+    $(document.body).on('click', '#selectRandom', function(){selectingRandom()});
+    $(document.body).on('click', '#btnFight', function(){fightingSystem()});
+    $(document.body).on('click', '#closeFight', function(){closeModalFight()});
+
+
+    // Ferme la fenêtre de combat
+    function closeModalFight() {
+
+        $('#fightContainer').hide();
+        $(location).attr("href", "/fight");
+
+    }
+
+    // Sélectionne un personnage
+    function selectingChar($this) {
+
+        if ($this.hasClass('disabled')) 
+            return;
+        else
+            $.post("{{ path('select-char') }}", {character: $this.data('char')}, function(data){
+                if (data.success === true) {
+                    $('#' + data.team).append(data.html);
+                    $this.addClass('disabled');
+                }
+            });
+
+    }
+
+    // Forme aléatoirement deux équipes de deux
+    function selectingRandom() {
+
+        let available = $('.select-char:not(.disabled)').toArray();
+        let nbr;
+
+        $.post("{{ path('check') }}", function(data){
+            for (let i = data.selected; i < 4; i++) {
+                nbr = randomNumber(0, available.length);    
+                available[nbr].click();
+                available.splice(nbr, 1);
+            }
+        });
+
+    }
+
+    // Affichage des résultats du combat
+    function fightingSystem() {
+
+        $.post("{{ path('check') }}", function(data){
+            if (data.selected.length !== 4)
+                return;
+
+            $('#fightContainer').show();
+            
+            $.post("{{ path('fighting') }}", function(data){
+                setTimeout(() => {
+                    $('#currentFightText').text('Le fer des épées s\'entrecroisent ...');
+                }, 2000);
+
+                setTimeout(() => {
+                    $('#currentFightText').text('La lutte est sanglante ...');
+                }, 4000);
+
+                setTimeout(() => {
+                    $('#currentFightText').text('Résultat de la bataille !');
+                    $('#loader').hide();
+
+                    let color = 'danger';
+                    if (data.team.id == 1)
+                        color = 'primary'; 
+
+                    $('#fightTeamWin').text('Equipe ' + data.team.id).addClass('text-'+color);
+
+                    data.html.forEach(element => {
+                        $('#fightWinner').append('<div class="col-lg-5">'+element+'</div>');
+                    });
+                    $.each(data.logs, function(k,log) {
+                        let logger = $('<small>').addClass('mb-1 w-100').css('font-size','x-small');
+                        let message = '';
+
+                        if (log.team == 1)
+                            logger.addClass('text-primary');
+                        else 
+                            logger.addClass('text-danger');
+
+                        if (log.damage != null)
+                            message = 'Equipe '+ log.team +' a réussi son attaque avec '+ log.attack +'% de blesser et '+ log.lucky +'% de chance de toucher.<br>Equipe adverse perd '+ log.damage +' dommage, elle lui reste désormet '+ log.health +' PV.<br>';
+                        else
+                            message = 'Equipe '+ log.team +' a échoué son attaque avec '+ log.attack +'% de blesser et '+ log.lucky +'% de chance de toucher.<br>Equipe adverse ne perd aucun PV.<br>';
+
+                        logger.html(message);
+                        $('#fightLogs').append(logger);
+                    });
+                
+                }, 6000);
+            });
+            
+        });
+
+    }
+
+    // Retourne un nombre aléatoire
+    function randomNumber(min = 0, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+
+</script>

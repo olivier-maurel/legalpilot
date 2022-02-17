@@ -21,6 +21,7 @@ class CharacterType extends AbstractType
                 ]
             ])
             ->add('strong', RangeType::class, [
+                'label' => 'Force',
                 'attr' => [
                     'min' => 1,
                     'max' => 7,
@@ -28,6 +29,7 @@ class CharacterType extends AbstractType
                 ]
             ])
             ->add('speed', RangeType::class, [
+                'label' => 'Rapidité',
                 'attr' => [
                     'min' => 1,
                     'max' => 7,
@@ -35,6 +37,7 @@ class CharacterType extends AbstractType
                 ]
             ])
             ->add('guard', RangeType::class, [
+                'label' => 'Défense',
                 'attr' => [
                     'min' => 1,
                     'max' => 7,
