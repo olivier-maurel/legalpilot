@@ -1,0 +1,70 @@
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center w-100 text-primary"><i class="fa fa-info-circle small me-2"></i>Information</h3>
+            </div>
+            <div class="modal-body row">
+                <div class="col-lg-9 small">
+                    <div>
+                        <p class="text-center">Ce mini-projet a été réalisé par Olivier Maurel pour le test technique demandé par la société LegalPilot suite à une candidature pour une offre d'emploi en tant que Développeur Web.</p>
+                    </div>
+                    <div class="mt-5">
+                        <h6 class="text-center mb-2 pb-2 border-bottom">Routes et fonctionalités de l'application</h6>
+                        <span>Route : '<b>/</b>'</span>
+                        <p class="text-muted mb-1">Liste des personnages existant</p>
+                        <span>Route : '<b>/char/new</b>'</span>
+                        <p class="text-muted mb-1">Création d'un nouveau personnage</p>
+                        <span>Route : '<b>/char/edit</b>'</span>
+                        <p class="text-muted mb-1">Modification d'un personnage existant</p>
+                        <span>Route : '<b>/fight</b>'</span>
+                        <p class="text-muted mb-1">Affrontement des différents personnages (4 perso min.)</p>
+                        <span>Route : '<b>/score</b>'</span>
+                        <p class="text-muted mb-1">Classement des différents personnages par rapport aux nombres de victoires</p>
+                        
+                    </div>
+                    <div class="mt-5">
+                        <h6 class="text-center mb-2 pb-2 border-bottom">Consignes du test technique</h6>
+                        <span class="mb-1">Voici les instructions du mini-projet à réaliser avant le 18 février :</span>           
+                        <ul class="h6 small">
+                            <li>Créer une page web, sur laquelle on peut consulter une liste de joueurs</li>
+                            <li>Cette liste de joueurs doit être liée à une base de données</li>
+                            <li>Il faut pouvoir manipuler les données (identité, statistiques, etc.) d’un joueur depuis l’interface web</li>
+                            <li>Lancer, toujours depuis l’interface, un affront entre 2 groupes de joueurs choisis aléatoirement, puis donner un résultat</li>
+                        </ul>
+                        <span class="mb-1">Si possible :</span>
+                        <ul class="h6 small">
+                            <li>Utiliser Angular en front</li>
+                            <li>Utiliser Symfony (Ou API Platform) en back</li>
+                            <li>Pouvoir déployer le projet sur Docker</li>
+                            <li>Versionner le projet sur Git dès le début</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 small border-start flex-center-btw flex-column">
+                    <div>
+                        <span class="text-muted">Technologies utiliées</span>
+                        <ul class="text-success">
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>JS (JQuery)</li>
+                            <li>PHP (Symfony)</li>
+                        </ul>
+                        <span class="text-muted">Technologies demandées mais non utilisées</span>
+                        <ul class="text-danger">
+                            <li><del>Angular</del></li>
+                        </ul>
+                    </div>
+                    <div class="flex-center-x flex-column">
+                        <a href="{{ asset('sql/legalpilot_db.sql') }}" target="_blank" class="btn btn-sm btn-success my-1"><i class="fa fa-database"></i> SQL for DB</a>
+                        <a href="https://github.com/olivier-maurel/legalpilot" target="_blank" class="btn btn-sm btn-info my-1"><i class="fab fa-github"></i> GitHub</a>
+                        <span class="text-muted">Email: <b>omaurel[at]pm.me</b></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="text-muted small">Created by Olivier Maurel</span>
+            </div>
+        </div>
+    </div>
+</div>
